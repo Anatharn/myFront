@@ -1,0 +1,20 @@
+<p>author-add works!</p>
+<form nz-form>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="lastName">Nom</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input nz-input name="lastName" type="lastName" id="lastName">
+        </nz-form-control>
+    </nz-form-item >
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="firstName">Prénom</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input nz-input name="firstName" type="firstName" id="firstName">
+        </nz-form-control>
+    </nz-form-item >
+    <nz-form-item >
+        <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            <button nz-button nzType="primary">Ajouter</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>
