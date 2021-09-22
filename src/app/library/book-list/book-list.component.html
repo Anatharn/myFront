@@ -1,4 +1,17 @@
-<p>book-list works!</p>
+<nz-table #bookTable [nzData]="books">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>ISBN</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of bookTable.data">
+            <td>{{data.title}}</td>
+            <td>{{data.isbn}}</td>
+        </tr>
+    </tbody>
+</nz-table>
 <p>
     <a routerLink="add">Add a Book</a>
 </p>

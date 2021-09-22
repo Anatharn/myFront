@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Author } from '../domain/Author';
+import { AuthorService } from '../service/author.service';
 
 @Component({
   selector: 'app-author-add',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthorAddComponent implements OnInit {
 
-  constructor() { }
+  author = new Author("", "");
+
+  constructor(private authorService: AuthorService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  submitForm(): void {
+    this.authorService.add(this.author)
+      .subscribe(_ => this.router.navigateByUrl("library/author"));
+  }
 }

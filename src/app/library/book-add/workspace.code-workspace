@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../../.."
+		},
+		{
+			"path": "../../../../../angular-tour-of-heroes"
+		},
+		{
+			"path": "../../../../../forms"
+		},
+		{
+			"path": "../../../../../../tutorials/angular/chd-workshop"
+		}
+	],
+	"settings": {}
+}

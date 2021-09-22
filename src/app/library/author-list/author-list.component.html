@@ -1,4 +1,21 @@
-<p>author-list works!</p>
-<p>
-    <a routerLink="add">Add Author</a>
-</p>
+<nz-table #basicTable 
+            [nzData]="authors" 
+            [nzPageIndex]="page.number" 
+            [nzPageSize]="page.size" 
+            [nzTotal]="page.totalElements" 
+            [nzFrontPagination]="false"
+            (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of basicTable.data">
+            <td>{{data.firstName}}</td>
+            <td>{{data.lastName}}</td>
+        </tr>
+    </tbody>
+</nz-table>
+<a routerLink="add">Add Author</a>
