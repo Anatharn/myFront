@@ -1,0 +1,26 @@
+<app-header subTitle="Editer un rangement"></app-header>
+<form nz-form [nzLayout]="'vertical'">
+  <nz-form-item>
+    <nz-form-label nzFor="name">Nom</nz-form-label>
+    <nz-form-control >
+      <input nz-input [(ngModel)]="bookcase.name" name="name" type="text" id="name">
+    </nz-form-control>
+  </nz-form-item >
+  <nz-form-item *ngIf="isUpdatable">
+    <app-bookcase-rack-editor [bookcase]="bookcase"></app-bookcase-rack-editor>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control class="add-button">
+      <button nz-button nzType="default" nzShape="circle"
+        (click)="rollback()"
+        nzTooltipTitle="Annuler" nzTooltipPlacement="topCenter" nz-tooltip>
+        <i nz-icon nzType="rollback" nzTheme="outline"></i>
+      </button>
+      <button nz-button [nzType]="'primary'" nzShape="circle"
+        nzTooltipTitle="Valider" nzTooltipPlacement="topCenter" nz-tooltip
+        (click)="submitForm()">
+        <i nz-icon nzType="check" nzTheme="outline"></i>
+      </button> 
+    </nz-form-control>
+</nz-form-item>
+</form>

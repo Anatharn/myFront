@@ -1,0 +1,40 @@
+<app-header subTitle="Liste des rangements"></app-header>
+<br />
+<br />
+<button nz-button nzType="primary" nzShape="circle"
+    nzTooltipTitle="Ajouter un rangement" nzTooltipPlacement="topCenter" nz-tooltip
+    (click)="onCreate();">
+    <i nz-icon nzType="plus" nzTheme="outline"></i>
+</button>
+<br />
+<br />
+<nz-table 
+    #bookcaseTable 
+    [nzData]="bookcases"
+    [nzPageIndex]="page.number" 
+    [nzPageSize]="page.size" 
+    [nzTotal]="page.totalElements" 
+    [nzFrontPagination]="false"
+    (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+        <tr>
+            <th>nom</th>
+            <th nzWidth="20%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let bookcase of bookcaseTable.data">
+            <td>{{bookcase.name}}</td>
+            <td class="my-action-cell">
+                <button nz-button nzDefault nzShape="circle"
+                    (click)="onUpdate(bookcase)"  
+                    nzTooltipTitle="Editer un rangement" nzTooltipPlacement="topCenter" nz-tooltip>
+                    <i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                <button nz-button nzDanger nzShape="circle"
+                    (click)="onDelete(bookcase)" 
+                    nzTooltipTitle="Supprimer un rangement" nzTooltipPlacement="topCenter" nz-tooltip>
+                    <i nz-icon nzType="delete" nzTheme="outline"></i></button>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

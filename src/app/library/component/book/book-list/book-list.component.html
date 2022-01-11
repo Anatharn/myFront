@@ -1,0 +1,46 @@
+<app-header subTitle="Liste des livres"></app-header>
+<br />
+<br />
+<button nz-button nzType="primary" nzShape="circle"
+    nzTooltipTitle="Ajouter un livre" nzTooltipPlacement="topCenter" nz-tooltip
+    (click)="onCreate();">
+    <i nz-icon nzType="plus" nzTheme="outline"></i>
+</button>
+<br />
+<br />
+<nz-table 
+    #bookTable 
+    [nzData]="books"
+    [nzPageIndex]="page.number" 
+    [nzPageSize]="page.size" 
+    [nzTotal]="page.totalElements" 
+    [nzFrontPagination]="false"
+    (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Série</th>
+            <th>ISBN</th>
+            <th nzWidth="20%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of bookTable.data">
+            <td>{{data.title}}</td>
+            <td><app-book-author-list-displayer [book]="data"></app-book-author-list-displayer></td>
+            <td></td>
+            <td>{{data.isbn}}</td>
+            <td class="my-action-cell">
+                <button nz-button nzDefault nzShape="circle"
+                    (click)="onUpdate(data)"  
+                    nzTooltipTitle="Editer un livre" nzTooltipPlacement="topCenter" nz-tooltip>
+                    <i nz-icon nzType="edit" nzTheme="outline"></i></button>
+                <button nz-button nzDanger nzShape="circle"
+                    (click)="onDelete(data)" 
+                    nzTooltipTitle="Supprimer un livre" nzTooltipPlacement="topCenter" nz-tooltip>
+                    <i nz-icon nzType="delete" nzTheme="outline"></i></button>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

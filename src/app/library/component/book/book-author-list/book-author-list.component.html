@@ -1,0 +1,22 @@
+<nz-form-control>
+    <nz-list nzBordered>
+        <nz-list-header>
+            <b>Ajouter un auteur:</b>
+            <input nz-input (input)="onInput($event)" [ngModel]="selectedAuthor" name="author" type="text" id="author" [nzAutocomplete]="auto" >
+            <nz-autocomplete #auto [compareWith]="compareWith" >
+                <nz-auto-option *ngFor="let author of options" (click)="onClick($event, author)" [nzValue]="author" [nzLabel]="displayAuthor(author)" >{{displayAuthor(author)}}</nz-auto-option>
+            </nz-autocomplete>
+        </nz-list-header>
+        <nz-list-item *ngFor="let  author of authorList">
+          {{displayAuthor(author)}}
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+                <button nz-button nzDanger nzShape="circle"
+                (click)="onDelete(author)"   
+                nzTooltipTitle="Délier un auteur" nzTooltipPlacement="topCenter" nz-tooltip>
+                <i nz-icon nzType="close" nzTheme="outline"></i></button>
+            </nz-list-item-action>
+          </ul>
+        </nz-list-item>
+      </nz-list>
+</nz-form-control>

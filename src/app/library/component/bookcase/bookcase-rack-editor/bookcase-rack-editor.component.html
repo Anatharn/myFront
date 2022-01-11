@@ -1,0 +1,26 @@
+<nz-form-control>
+    <nz-list nzBordered>
+        <nz-list-header>
+            <nz-form-label nzFor="rackName">Ajouter une étagère:</nz-form-label>
+            <nz-form-control >
+              <input nz-input [(ngModel)]="rackName" name="rackName" type="text" id="rackName">
+              <button nz-button nzType="primary" nzShape="circle"
+                nzTooltipTitle="Ajouter" nzTooltipPlacement="topCenter" nz-tooltip
+                (click)="onCreate();">
+                <i nz-icon nzType="plus" nzTheme="outline"></i>
+              </button>
+            </nz-form-control>
+        </nz-list-header>
+        <nz-list-item *ngFor="let rack of rackList">
+          {{rack.name}}
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+                <button nz-button nzDanger nzShape="circle"
+                (click)="onDelete(rack)"   
+                nzTooltipTitle="Détruire une étagère" nzTooltipPlacement="topCenter" nz-tooltip>
+                <i nz-icon nzType="close" nzTheme="outline"></i></button>
+            </nz-list-item-action>
+          </ul>
+        </nz-list-item>
+      </nz-list>
+</nz-form-control>

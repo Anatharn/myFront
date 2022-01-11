@@ -1,0 +1,30 @@
+<app-header subTitle="Ajouter un auteur"></app-header>
+<form nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzFor="lastName">Nom</nz-form-label>
+      <nz-form-control [nzSpan]="14">
+        <input nz-input [(ngModel)]="author.lastName" name="lastName" type="text" id="lastName">
+      </nz-form-control>
+    </nz-form-item >
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="firstName">Prénom</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+          <input nz-input [(ngModel)]="author.firstName" name="firstName" type="text" id="firstName">
+        </nz-form-control>
+    </nz-form-item >
+    <nz-form-item>
+        <nz-form-control [nzOffset]="6" [nzSpan]="14">
+          <button nz-button nzType="default" nzShape="circle"
+            (click)="rollback()"
+            nzTooltipTitle="Annuler" nzTooltipPlacement="topCenter" nz-tooltip>
+            <i nz-icon nzType="rollback" nzTheme="outline"></i>
+          </button>
+          <button nz-button [nzType]="'primary'" nzShape="circle"
+            nzTooltipTitle="Valider" nzTooltipPlacement="topCenter" nz-tooltip
+            (click)="submitForm()">
+            <i nz-icon nzType="check" nzTheme="outline"></i>
+          </button> 
+        </nz-form-control>
+    </nz-form-item>
+    
+</form>

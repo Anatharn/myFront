@@ -1,0 +1,9 @@
+input {
+    width: 100%;
+}
+button {
+    margin-left: 8px;
+}
+.add-button {
+    text-align: center;
+}

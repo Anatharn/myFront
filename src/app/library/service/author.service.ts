@@ -4,36 +4,32 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EmbeddedResponse } from 'src/app/tools/EmbeddedResponse';
-import { EmbeddedAuthor } from '../dto/EmbeddedAUthor';
-import { Page } from 'src/app/tools/Page';
 import { AbstractService } from './abstract.service';
+import { HALResponse } from 'src/app/common/domain/HALResponse';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorService extends AbstractService{
+export class AuthorService extends AbstractService<Author>{
 
   constructor(private http: HttpClient) {
-    super();
-   }
-
-  findAll(page: Page): Observable<EmbeddedResponse<EmbeddedAuthor>> {
-    return this.http.get<EmbeddedResponse<EmbeddedAuthor>> (super.buildUrl("library/author", page));
-   
+    super(http, "library/author");
   }
 
-  findByName(name: string): Observable<EmbeddedResponse<EmbeddedAuthor>> {
-    return this.http.get<EmbeddedResponse<EmbeddedAuthor>>("http://localhost:8081/library/author/search/findByFirstNameContainingOrLastNameContaining?firstName="+name+"&lastName="+name)
+  newSelectedEntity(): Author {
+      return new Author("","");
   }
 
-  add(author: Author): Observable<Author>{
-    console.log('call add with ', author);
-    return this.http.post<Author>("http://localhost:8081/library/author", author)
+  findByName(name: string): Observable<HALResponse<Author>> {
+    return this.http.get<HALResponse<Author>>(
+      super.buildUrl("library/author/search/findByFirstNameContainingOrLastNameContaining?firstName="+name+"&lastName="+name))
+  }
+
+  update(author: Author): Observable<Author>{
+    console.log("url -> ", super.buildUrl("library/author"));
+    return this.http.put<Author>(author._links.self.href, author)
     .pipe(
-      catchError(this.handleError<Author>("add", author))
+      catchError(this.handleError<Author>("update", author))
     );
   }
-
-  
 }

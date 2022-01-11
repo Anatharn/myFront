@@ -1,18 +1,89 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Page } from 'src/app/tools/Page';
+import { catchError } from 'rxjs/operators';
+import { HALObject } from 'src/app/common/domain/HALObject';
+import { HALPage } from 'src/app/common/domain/HALPage';
+import { HALResponse } from 'src/app/common/domain/HALResponse';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AbstractService {
+export abstract class AbstractService<T extends HALObject> {
 
-  protected baseUrl: string = "http://localhost:8081/"
+  protected baseUrl: string = "http://localhost:8081/";
+  private selectedEntity: T;
 
-  constructor() { }
+  constructor(private httpClient: HttpClient, private serviceUrl: string) {
+    this.serviceUrl = serviceUrl;
+    this.selectedEntity = this.newSelectedEntity();
+  }
 
-  protected buildUrl(action: string, page: Page): string{
-    return this.baseUrl + action + "?page="+(page.number-1)+"&size="+page.size ;
+  selectEntity(entity: T): T {
+    return this.selectedEntity = entity;
+  }
+
+  getSelectedEntity() : T {
+    return this.selectedEntity;
+  }
+
+  resetSelectedEntity() : void {
+    this.selectedEntity = this.newSelectedEntity();
+  }
+
+  abstract newSelectedEntity(): T;
+
+  updateByOneUrl(url: string, urlUp: string): Observable<T> {
+    let urlList = [];
+    urlList.push(urlUp);
+    return this.updateByUrl(url, urlList);
+  }
+  updateByUrl(url: string, urlList: string[]): Observable<T>{
+    console.log("urlList ", urlList.join('\n'));
+    let httpHeaders = new HttpHeaders({'Content-Type': 'text/uri-list'})
+    return this.httpClient.put<any>(url, urlList.join('\n'), {'headers': httpHeaders})
+    .pipe(
+      catchError(this.handleError<any>("update", urlList))
+    );
+  }
+  update(entity: T): Observable<T>{
+    return this.httpClient.put<T>(entity._links.self.href, entity)
+    .pipe(
+      catchError(this.handleError<T>("update", entity))
+    );
+  }
+  findAll(page: HALPage): Observable<HALResponse<T>> {
+    return this.httpClient.get<HALResponse<T>> (this.buildUrlWithPagination(this.serviceUrl, page));
+  }
+
+  findByUrl(url: string): Observable<HALResponse<T>> {
+    return this.httpClient.get<HALResponse<T>>(url);
+  }
+
+  delete(entity: T): Observable<T>{
+    return this.deleteByUrl(entity._links.self.href);
+    
+  }
+
+  deleteAssociation(url: string) : Observable<T>{
+    return this.deleteByUrl(url);
+  }
+
+  deleteByUrl(url: string): Observable<T> {
+    return this.httpClient.delete<T>(url)
+    .pipe(
+      catchError(this.handleError<T>("delete"))
+    );
+  }
+  add(entity: T): Observable<T>{
+    return this.httpClient.post<T>(this.buildUrl(this.serviceUrl), entity)
+    .pipe(
+      catchError(this.handleError<T>("add", entity))
+    );
+  }
+
+  protected buildUrlWithPagination(action: string, page: HALPage): string{
+    return `${this.buildUrl(action)}?page=${(page.number-1)}&size=${page.size}`;
+  }
+  protected buildUrl(action: string ){
+    return this.baseUrl + action
   }
   /**
    * Handle Http operation that failed.

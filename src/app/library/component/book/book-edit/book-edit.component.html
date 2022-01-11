@@ -1,0 +1,33 @@
+<app-header subTitle="Editer un livre"></app-header>
+<form nz-form [nzLayout]="'vertical'">
+  <nz-form-item>
+    <nz-form-label nzFor="title">Titre</nz-form-label>
+    <nz-form-control >
+      <input nz-input [(ngModel)]="book.title" name="title" type="text" id="title">
+    </nz-form-control>
+  </nz-form-item >
+  <nz-form-item>
+      <nz-form-label nzFor="isbn">ISBN</nz-form-label>
+      <nz-form-control >
+        <input nz-input [(ngModel)]="book.isbn" name="isbn" type="text" id="isbn">
+      </nz-form-control>
+  </nz-form-item >
+  <nz-form-item *ngIf="isUpdatable">
+    <nz-form-label nzFor="auteur">Auteurs</nz-form-label>
+    <app-book-author-list [book]="book"></app-book-author-list>
+  </nz-form-item >
+  <nz-form-item>
+    <nz-form-control class="add-button">
+      <button nz-button nzType="default" nzShape="circle"
+        (click)="rollback()"
+        nzTooltipTitle="Annuler" nzTooltipPlacement="topCenter" nz-tooltip>
+        <i nz-icon nzType="rollback" nzTheme="outline"></i>
+      </button>
+      <button nz-button [nzType]="'primary'" nzShape="circle"
+        nzTooltipTitle="Valider" nzTooltipPlacement="topCenter" nz-tooltip
+        (click)="submitForm()">
+        <i nz-icon nzType="check" nzTheme="outline"></i>
+      </button> 
+    </nz-form-control>
+</nz-form-item>
+</form>

@@ -1,6 +1,9 @@
+import { HALObject } from 'src/app/common/domain/HALObject';
 import { Author } from './Author';
 
-export class Book{
+export class Book extends HALObject{
 
-    constructor(private id: Number, public title: String, public isbn: String, public authors: Author[] ){}
+    constructor(public title: string, public isbn: string, public authorList: string[] ){
+        super();
+    }
 }
