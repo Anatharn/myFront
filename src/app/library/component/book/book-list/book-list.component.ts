@@ -5,6 +5,7 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { HALPage } from 'src/app/common/domain/HALPage';
 import { Book } from 'src/app/library/domain/Book';
 import { BookService } from 'src/app/library/service/book.service';
+import { TableQueryParamsConverter } from 'src/app/tools/tableQueryParamsConverter';
 
 @Component({
   selector: 'app-book-list',
@@ -15,10 +16,12 @@ export class BookListComponent implements OnInit {
 
   books: Book[];
   page: HALPage;
+  sort: string;
 
   constructor(private bookService : BookService, private router : Router, private modalService: NzModalService) {
     this.books = [];
     this.page = new HALPage(1,5);
+    this.sort = "title,asc"
   }
 
   ngOnInit(): void {
@@ -26,7 +29,7 @@ export class BookListComponent implements OnInit {
   }
 
   loadBooks(){
-    this.bookService.findAll(this.page)
+    this.bookService.findAllSort(this.page, this.sort)
     .subscribe(embeddedBooks => {
       this.books = embeddedBooks._embedded.book;
       this.page.totalElements = embeddedBooks.page.totalElements;
@@ -35,7 +38,9 @@ export class BookListComponent implements OnInit {
   }
 
   onQueryParamsChange(params: NzTableQueryParams){
+    console.log('params ', params);
     this.page.number = params.pageIndex;
+    this.sort = TableQueryParamsConverter.convertSortParams(params);
     this.loadBooks();
   }
 

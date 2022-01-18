@@ -49,8 +49,11 @@ export abstract class AbstractService<T extends HALObject> {
       catchError(this.handleError<T>("update", entity))
     );
   }
-  findAll(page: HALPage): Observable<HALResponse<T>> {
+  findAll(page:HALPage): Observable<HALResponse<T>> {
     return this.httpClient.get<HALResponse<T>> (this.buildUrlWithPagination(this.serviceUrl, page));
+  }
+  findAllSort(page: HALPage, sort: string): Observable<HALResponse<T>> {
+    return this.httpClient.get<HALResponse<T>> (this.buildUrlWithPaginationAndSorting(this.serviceUrl, page, sort));
   }
 
   findByUrl(url: string): Observable<HALResponse<T>> {
@@ -78,9 +81,16 @@ export abstract class AbstractService<T extends HALObject> {
       catchError(this.handleError<T>("add", entity))
     );
   }
-
   protected buildUrlWithPagination(action: string, page: HALPage): string{
     return `${this.buildUrl(action)}?page=${(page.number-1)}&size=${page.size}`;
+  }
+  protected buildUrlWithPaginationAndSorting(action: string, page: HALPage, sort: string): string{
+    console.log("buildUrlWithPaginationAndSorting", sort);
+    let url = this.buildUrlWithPagination(action, page);
+    if(!!sort && sort !== "") {
+      url += `&sort=${sort}`;
+    }
+    return url;
   }
   protected buildUrl(action: string ){
     return this.baseUrl + action

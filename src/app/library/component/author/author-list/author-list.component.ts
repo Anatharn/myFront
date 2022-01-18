@@ -14,11 +14,14 @@ import { HALPage } from 'src/app/common/domain/HALPage';
 })
 export class AuthorListComponent implements OnInit {
 
-  authors: Author[] = [];
+  authors: Author[];
   page: HALPage;
+  sort: string;
 
   constructor(private authorService: AuthorService, private  router: Router, private modalService: NzModalService) { 
     this.page = new HALPage(1,5);
+    this.authors = [];
+    this.sort = "name,asc";
   }
 
   ngOnInit() {
@@ -26,7 +29,7 @@ export class AuthorListComponent implements OnInit {
   }
 
   getAuthors(): void{
-    this.authorService.findAll(this.page)
+    this.authorService.findAllSort(this.page, this.sort)
     .subscribe(embeddedAuthor => {
       this.authors = embeddedAuthor._embedded.author;
       this.page.totalElements = embeddedAuthor.page.totalElements;

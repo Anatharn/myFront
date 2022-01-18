@@ -18,9 +18,9 @@
     (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
         <tr>
-            <th>Titre</th>
+            <th nzColumnKey="title" [nzSortFn]="true">Titre</th>
             <th>Auteur</th>
-            <th>Série</th>
+            <th nzColumnKey="serie" [nzSortFn]="true">Série</th>
             <th>ISBN</th>
             <th nzWidth="20%"></th>
         </tr>
