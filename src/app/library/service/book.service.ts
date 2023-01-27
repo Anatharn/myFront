@@ -12,7 +12,7 @@ export class BookService extends AbstractService<Book>{
   private selectedBook!: Book;
 
   constructor(private http: HttpClient) { 
-    super(http, "library/book");
+    super(http, "book");
   }
   newSelectedEntity(): Book {
       return new Book("","",[]);

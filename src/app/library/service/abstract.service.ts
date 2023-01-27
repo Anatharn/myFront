@@ -8,7 +8,7 @@ import { HALResponse } from 'src/app/common/domain/HALResponse';
 
 export abstract class AbstractService<T extends HALObject> {
 
-  protected baseUrl: string = "http://localhost:8081/";
+  protected baseUrl: string = "library/";
   private selectedEntity: T;
 
   constructor(private httpClient: HttpClient, private serviceUrl: string) {
